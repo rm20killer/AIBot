@@ -21,7 +21,8 @@ client.on('message', msg => {
     const cmd = args[0].slice(prefixl.length).toLowerCase();
 
     n =resHi.includes(cmd)
-    if (n=true){
+    console.log(n)
+    if (n===true){
         const random = Math.floor(Math.random() * resHi.length);
         msg.reply(resHi[random]);
     }
