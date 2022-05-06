@@ -22,7 +22,7 @@ module.exports = {
             }
             //search = args 1 to end
             //search = args.slice(1).join("");
-            const tv = args.slice(1).join("");
+            const tv = args.slice(1).join(" ");
             const url = `https://api.tvmaze.com/search/shows?q=${tv}`;
             const res = await fetch(url);
             const data = await res.json();
@@ -59,7 +59,7 @@ module.exports = {
             message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } })
         }
         else{
-            const movie = args[0];
+            const movie = args.slice(0).join(" ");
             fetch(`https://api.themoviedb.org/3/search/movie?api_key=${config.MovieKey}&language=en-US&query=${movie}&page=1&include_adult=false`).then(response => {
                 //console.log(response)
                 return response.json()
