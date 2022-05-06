@@ -1,11 +1,64 @@
+const Discord = require('discord.js')
+const { Client, Intents } = require('discord.js');
+const fs = require('fs');
+const client = new Client({
+    intents: [
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MEMBERS,
+        Intents.FLAGS.GUILD_BANS,
+        Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
+        Intents.FLAGS.GUILD_INVITES,
+        Intents.FLAGS.GUILD_VOICE_STATES,
+        Intents.FLAGS.GUILD_PRESENCES,
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+        Intents.FLAGS.GUILD_MESSAGE_TYPING,
+        Intents.FLAGS.DIRECT_MESSAGES,
+        Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
+        Intents.FLAGS.DIRECT_MESSAGE_TYPING
+    ],
+    partials: [
+        `CHANNEL`,
+        `MESSAGE`,
+        `REACTION`
+    ],
+    autoReconnect: true,
+});
 
-const Discord = require('discord.js');
-const client = new Discord.Client();
+const fetch = require("node-fetch");
+const { MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
+const wait = require('util').promisify(setTimeout);
+const { GiveawaysManager } = require('discord-giveaways');
 
 const config = require("./config");
 const prefixl = config.prefix
 
-const resHi = ["Hi", "Hey", "Hello", "Howdy", "Greetings", "Nice to see you", "yo","Sup"];
+
+client.giveawaysManager = new GiveawaysManager(client, {
+    storage: './giveaways.json',
+    default: {
+        botsCanWin: false,
+        embedColor: '#FF0000',
+        embedColorEnd: '#000000',
+        reaction: '🎉',
+        lastChance: {
+            enabled: true,
+            content: '⚠️ **LAST CHANCE TO ENTER !** ⚠️',
+            threshold: 5000,
+            embedColor: '#FF0000'
+        }
+    }
+});
+
+client.commands = new Discord.Collection();
+const commandFolders = fs.readdirSync('./commands')
+for (const folder of commandFolders) {
+    const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
+    for (const file of commandFiles) {
+        const command = require(`./commands/${folder}/${file}`);
+        client.commands.set(command.name, command);
+    }
+}
 
 client.on("ready", () =>{
     console.log(`Logged in as ${client.user.tag}!`);
@@ -15,141 +68,30 @@ client.on("ready", () =>{
       });
 });
 
-client.on('message', msg => {
-    if (!msg.content.startsWith(prefixl)) return;
-    const args = msg.content.trim().split(/ +/g);
-    const cmd = args[0].slice(prefixl.length).toLowerCase();
-
-    n =resHi.includes(cmd)
-    console.log(n)
-    if (n===true){
-        const random = Math.floor(Math.random() * resHi.length);
-        msg.reply(resHi[random]);
+client.on('message', message => {
+    if (message.guild === null) {
+        return;
     }
-
-    if(cmd === 'ping') {
-        msg.reply('pong, ' + `${Date.now() - msg.createdTimestamp}` + ' ms');
-    }
-    if(cmd=== 'madeby') {
-        msg.channel.send('This was made by RM20');
-    }
-    if(cmd=== 'github') {
-        msg.channel.send('https://github.com/rm20killer');
-    }
-
-
-    
-    if(cmd === 'poll') {
-        console.log(`${args[1]}`)
-        if (msg.member.roles.cache.find(r=>r.id === '765932402169479178')|| msg.member.roles.cache.find(r=>r.id === '631567730016911380')) {
-            if (args[1] === `2`){
-                console.log("reacting");
-                msg.react('1️⃣')
-                .then(() => msg.react('2️⃣'))
-                .then(() => console.log("all 2 emotes been reacted"))
-                .catch(() => console.error("error with emote"));
-            }
-            else if (args[1] === `3`){
-                console.log("reacting");
-                msg.react('1️⃣')
-                .then(() => msg.react('2️⃣'))
-                .then(() => msg.react('3️⃣'))
-                .then(() => console.log(`all`, args[1] ,"emotes been reacted"))
-                .catch(() => console.error("error with emote"));
-            }
-            else if (args[1] === `4`){
-                console.log("reacting");
-                msg.react('1️⃣')
-                .then(() => msg.react('2️⃣'))
-                .then(() => msg.react('3️⃣'))
-                .then(() => msg.react('4️⃣'))
-                .then(() => console.log(`all`, args[1] ,"emotes been reacted"))
-                .catch(() => console.error("error with emote"));
-            }
-            else if (args[1] === `5`){
-                console.log("reacting");
-                msg.react('1️⃣')
-                .then(() => msg.react('2️⃣'))
-                .then(() => msg.react('3️⃣'))
-                .then(() => msg.react('4️⃣'))
-                .then(() => msg.react('5️⃣'))
-                .then(() => console.log(`all`, args[1] ,"emotes been reacted"))
-                .catch(() => console.error("error with emote"));
-            }
-            else if (args[1] === `6`){
-                console.log("reacting");
-                msg.react('1️⃣')
-                .then(() => msg.react('2️⃣'))
-                .then(() => msg.react('3️⃣'))
-                .then(() => msg.react('4️⃣'))
-                .then(() => msg.react('5️⃣'))
-                .then(() => msg.react('6️⃣'))
-                .then(() => console.log(`all`, args[1] ,"emotes been reacted"))
-                .catch(() => console.error("error with emote"));
-            }
-            else if (args[1] === `7`){
-                console.log("reacting");
-                msg.react('1️⃣')
-                .then(() => msg.react('2️⃣'))
-                .then(() => msg.react('3️⃣'))
-                .then(() => msg.react('4️⃣'))
-                .then(() => msg.react('5️⃣'))
-                .then(() => msg.react('6️⃣'))
-                .then(() => msg.react('7️⃣'))
-                .then(() => console.log(`all`, args[1] ,"emotes been reacted"))
-                .catch(() => console.error("error with emote"));
-            }
-            else if (args[1] === `8`){
-                console.log("reacting");
-                msg.react('1️⃣')
-                .then(() => msg.react('2️⃣'))
-                .then(() => msg.react('3️⃣'))
-                .then(() => msg.react('4️⃣'))
-                .then(() => msg.react('5️⃣'))
-                .then(() => msg.react('6️⃣'))
-                .then(() => msg.react('7️⃣'))
-                .then(() => msg.react('8️⃣'))
-                .then(() => console.log(`all`, args[1] ,"emotes been reacted"))
-                .catch(() => console.error("error with emote"));
-            }
-            else if (args[1] === `9`){
-                console.log("reacting");
-                msg.react('1️⃣')
-                .then(() => msg.react('2️⃣'))
-                .then(() => msg.react('3️⃣'))
-                .then(() => msg.react('4️⃣'))
-                .then(() => msg.react('5️⃣'))
-                .then(() => msg.react('6️⃣'))
-                .then(() => msg.react('7️⃣'))
-                .then(() => msg.react('8️⃣'))
-                .then(() => msg.react('9️⃣'))
-                .then(() => console.log(`all`, args[1] ,"emotes been reacted"))
-                .catch(() => console.error("error with emote"));
-            }
-            else if (args[1] === `10`){
-                console.log("reacting");
-                msg.react('1️⃣')
-                .then(() => msg.react('2️⃣'))
-                .then(() => msg.react('3️⃣'))
-                .then(() => msg.react('4️⃣'))
-                .then(() => msg.react('5️⃣'))
-                .then(() => msg.react('6️⃣'))
-                .then(() => msg.react('7️⃣'))
-                .then(() => msg.react('8️⃣'))
-                .then(() => msg.react('9️⃣'))
-                .then(() => msg.react('🔟'))
-                .then(() => console.log(`all`, args[1] ,"emotes been reacted"))
-                .catch(() => console.error("error with emote"));
-            }
-            else {
-                console.log("no number given");
-                msg.reply("give a number between 2 and 10");
-            }
-        }
-        else{
-            msg.reply("you do not have perm to do so")
+    if (message.content.startsWith(prefixl)) {
+        const args = message.content.slice(prefixl.length).trim().split(/ +/);
+        const commandName = args.shift().toLowerCase();
+        const command = client.commands.get(commandName)
+            || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+        if (!command) return;
+        try {
+            console.log(`${message.content} sent by ${message.author.tag}`)
+            command.execute(message, args, client);
+        } catch (error) {
+            console.error(error);
+            message.reply(error)
         }
     }
+    //n =resHi.includes(cmd)
+    //console.log(n)
+    //if (n===true){
+    //    const random = Math.floor(Math.random() * resHi.length);
+    //    msg.reply(resHi[random]);
+    //}
 })
 
 
