@@ -68,7 +68,7 @@ client.on("ready", () =>{
       });
 });
 
-client.on('message', message => {
+client.on('messageCreate', message => {
     if (message.guild === null) {
         return;
     }
