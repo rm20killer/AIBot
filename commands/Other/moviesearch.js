@@ -26,6 +26,11 @@ module.exports = {
             const url = `https://api.tvmaze.com/search/shows?q=${tv}`;
             const res = await fetch(url);
             const data = await res.json();
+            //if no results
+            if (data.length === 0) {
+                message.reply(`No results found for ${tv}`)
+                return
+            }
             //console.log(data);
             //store data in variables
             var site = ""
@@ -67,11 +72,14 @@ module.exports = {
             }).then(data => {
                 const result = data.results[0]
                 if(!result){
+                    message.reply(`No results found for ${movie}`)
                     return
                 }
                 const title = result.title
-                var Reviews = ""
-                Reviews = result.vote_average
+                var Reviews = result.vote_average
+                if (Reviews === 0) {
+                    Reviews = "No Reviews"
+                }
                 image = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${result.poster_path}`
                 //const relase_date = result.relase_date
                 fetch(`https://api.themoviedb.org/3/movie/${result.id}?api_key=${config.MovieKey}&language=en-US`).then(response => {
@@ -85,7 +93,15 @@ module.exports = {
                         const element = DB.genres[i].name.replace(/\s/g, '');;
                         genres = genres + ` #${element},`
                     }
-                    const relase_date = DB.release_date
+                    //if no genres
+                    if (genres === "") {
+                        genres = "unknown"
+                    }
+                    //var relase_date = "unknown"
+                    relase_date = DB.release_date
+                    if (relase_date === "") {
+                        relase_date = "unknown"
+                    }
                     var overview = "none found"
                     overview = DB.overview
                     const embed = new Discord.MessageEmbed()
