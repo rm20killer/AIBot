@@ -60,6 +60,7 @@ module.exports = {
         }
         else{
             const movie = args.slice(0).join(" ");
+            var image = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
             fetch(`https://api.themoviedb.org/3/search/movie?api_key=${config.MovieKey}&language=en-US&query=${movie}&page=1&include_adult=false`).then(response => {
                 //console.log(response)
                 return response.json()
@@ -69,21 +70,24 @@ module.exports = {
                     return
                 }
                 const title = result.title
-                const Reviews = result.vote_average
-                const image = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${result.poster_path}`
+                var Reviews = ""
+                Reviews = result.vote_average
+                image = `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${result.poster_path}`
                 //const relase_date = result.relase_date
                 fetch(`https://api.themoviedb.org/3/movie/${result.id}?api_key=${config.MovieKey}&language=en-US`).then(response => {
                     return response.json()
                 }).then(DB => {
                     //console.log(DB)
-                    const production_companies = DB.production_companies[0].name
+                    var production_companies = "unknow"
+                    production_companies = DB.production_companies[0].name
                     let genres = ""
                     for (let i = 0; i < DB.genres.length; i++) {
                         const element = DB.genres[i].name.replace(/\s/g, '');;
                         genres = genres + ` #${element},`
                     }
                     const relase_date = DB.release_date
-                    const overview = DB.overview
+                    var overview = "none found"
+                    overview = DB.overview
                     const embed = new Discord.MessageEmbed()
                         .setTitle(title)
                         .setDescription(overview)
