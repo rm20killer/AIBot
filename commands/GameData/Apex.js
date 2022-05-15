@@ -14,7 +14,7 @@ module.exports = {
     example: '`*ping`',
     async execute(message, args) {
         const apex = new Apex(config.ApexKey);
-        if (args[0]) {
+        if (!args[0]) {
             message.reply("Please provide a player name")
             return
         }
