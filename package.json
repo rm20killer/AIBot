@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apex-api": "^3.1.0",
     "comma-number": "^2.1.0",
     "discord-giveaways": "^5.1.1",
     "discord.js": "^13.6.0",
