@@ -25,9 +25,9 @@ const client = new Client({
     autoReconnect: true,
 });
 
-const fetch = require("node-fetch");
-const { MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
-const wait = require('util').promisify(setTimeout);
+// const fetch = require("node-fetch");
+// const { MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
+// const wait = require('util').promisify(setTimeout);
 const { GiveawaysManager } = require('discord-giveaways');
 
 const config = require("./config");

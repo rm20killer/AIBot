@@ -42,7 +42,7 @@ module.exports = {
             message.reply({embeds: [embed]});
             return
         }
-        console.log(playerData);
+        //console.log(playerData);
         
         let id = "No data";
         let avatarURL = "No data";
