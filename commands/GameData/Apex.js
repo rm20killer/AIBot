@@ -14,16 +14,16 @@ module.exports = {
     example: '`*ping`',
     async execute(message, args) {
         const apex = new Apex(config.ApexKey);
-        const player = args[0];
-        if (!player) {
+        if (args[0]) {
             message.reply("Please provide a player name")
             return
         }
-        const platform = args[1].toLowerCase();
-        if (!platform) {
+        const player = args[0];
+        if (!args[1]) {
             message.reply("Please provide a platform")
             return
         }
+        const platform = args[1].toLowerCase();
         if (!platforms.includes(platform)) {
             message.reply("Please provide a valid platform (PC, XBOX, PSN)")
             return
