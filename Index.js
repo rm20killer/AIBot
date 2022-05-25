@@ -33,6 +33,7 @@ const { GiveawaysManager } = require('discord-giveaways');
 const config = require("./config");
 const prefixl = config.prefix
 
+const role = require('./interaction/Buttons/role')
 
 client.giveawaysManager = new GiveawaysManager(client, {
     storage: './giveaways.json',
@@ -94,6 +95,15 @@ client.on('messageCreate', message => {
     //}
 })
 
+
+client.on("interactionCreate", async interaction => {
+    if(interaction.isButton())
+    {
+        role.role(interaction, client)
+        await interaction.reply(`Giving you role.`);
+        interaction.deleteReply();
+    }
+})
 
 // client.login(process.env.token);
 client.login(config.BotToken);
