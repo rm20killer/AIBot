@@ -13,9 +13,10 @@ module.exports = {
             const menu = new Discord.MessageEmbed()
                 .setColor('#0099ff')
                 .setTitle('ROLE MENU')
-                .addField('minecraft', 'Get pings from Minecraft related stuff', true)
-                .addField('Movie', 'Get access to Movie related channels', true)
-                .addField('Warframe', 'get ping from Warframe related stuff', true)
+                .addField('minecraft', 'Get pings for Minecraft related stuff')
+                .addField('Movie', 'Get access to Movie related channels')
+                .addField('Warframe', 'Get pings for Warframe related stuff')
+                .addField('Freestuff', 'Get pings when ever <@672822334641537041> pings')
 
             let buttonMC = new MessageButton()
                 .setStyle('SUCCESS')
@@ -32,10 +33,16 @@ module.exports = {
                 .setLabel('Warframe')
                 .setCustomId('Role-Warframe')
                 .setEmoji('978811541635862578');
+            let buttonFreestuff = new MessageButton()
+                .setStyle('SUCCESS')
+                .setLabel('Freestuff')
+                .setCustomId('Role-Freestuff')
+                .setEmoji('🎮');
             let row = new MessageActionRow()
                 .addComponents(buttonMC)
                 .addComponents(buttonMovie)
-                .addComponents(buttonWarframe);
+                .addComponents(buttonWarframe)
+                .addComponents(buttonFreestuff);
             message.channel.send({ embeds: [menu], components: [row] }).catch(console.error);
 
         }

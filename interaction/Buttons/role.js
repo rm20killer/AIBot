@@ -2,7 +2,7 @@
 const minecraftRole = "656532088505237550"
 const movieRole = "717734216451883028"
 const WarframeRole = "805892598274850856"
-
+const Freestuffrole= "979128892562497698"
 module.exports = {
     role: async function (interaction, client) {
         const id = interaction.customId;
@@ -34,6 +34,14 @@ module.exports = {
                 }
                 else{
                     interaction.member.roles.add(WarframeRole);
+                }
+            }
+            else if (id === "Role-Freestuff") {
+                if(interaction.member.roles.cache.find(r => r.id === Freestuffrole)){
+                    interaction.member.roles.remove(Freestuffrole).catch(console.error);
+                }
+                else{
+                    interaction.member.roles.add(Freestuffrole);
                 }
             }
 

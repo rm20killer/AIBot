@@ -99,9 +99,8 @@ client.on('messageCreate', message => {
 client.on("interactionCreate", async interaction => {
     if(interaction.isButton())
     {
+        interaction.deferUpdate()
         role.role(interaction, client)
-        await interaction.reply(`Giving you role.`);
-        interaction.deleteReply();
     }
 })
 
